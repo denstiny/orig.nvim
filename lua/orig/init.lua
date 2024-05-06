@@ -1,45 +1,53 @@
-local Popup = require("nui.popup")
-local Layout = require("nui.layout")
+local M = {}
+local config = require("orig.config")
+local utils = require("orig.utils")
 
-local popup_one, popup_two = Popup({
-	enter = true,
-	border = "single",
-}), Popup({
-	border = "double",
-})
+M.setup = function()
+	vim.api.nvim_create_autocmd({ "VimEnter" }, {
+		callback = function()
+			for _, v in ipairs(config.view) do
+				--v:mount()
+			end
+		end,
+	})
 
-local layout = Layout(
-	{
-		position = "50%",
-		size = {
-			width = 80,
-			height = "60%",
-		},
-	},
-	Layout.Box({
-		Layout.Box(popup_one, { size = "40%" }),
-		Layout.Box(popup_two, { size = "60%" }),
-	}, { dir = "row" })
-)
+	--vim.api.nvim_create_autocmd({ "BufEnter" }, {
+	--	callback = function(arg)
+	--		local oldfiles_path = utils.get_script_path() .. "/oldlist.lua"
+	--		if vim.fn.filereadable(oldfiles_path) == 1 then
+	--			if vim.fn.filereadable(arg.file) == 1 then
+	--				local oldfiles = require("orig.oldlist")
+	--				for i = #oldfiles, 1, -1 do
+	--					if oldfiles[i] == arg.file then
+	--						table.remove(require("orig.oldlist"), i)
+	--					end
+	--				end
+	--				table.insert(require("orig.oldlist"), 1, arg.file)
+	--			end
+	--		else
+	--			local oldfiles = {}
+	--			if vim.fn.filereadable(arg.file) == 1 then
+	--				table.insert(oldfiles, 1, arg.file)
+	--			end
+	--			local s_oldfiles = {
+	--				"local M = " .. vim.inspect(oldfiles),
+	--				"return M",
+	--			}
+	--			vim.fn.writefile(s_oldfiles, oldfiles_path)
+	--		end
+	--	end,
+	--})
+	--vim.api.nvim_create_autocmd({ "BufLeave" }, {
+	--	callback = function()
+	--		local oldfiles = require("orig.oldlist")
+	--		local oldfiles_path = utils.get_script_path() .. "/oldlist.lua"
+	--		local s_oldfiles = {
+	--			"local M = " .. vim.inspect(oldfiles),
+	--			"return M",
+	--		}
+	--		vim.fn.writefile(s_oldfiles, oldfiles_path)
+	--	end,
+	--})
+end
 
-local current_dir = "row"
-
-popup_one:map("n", "r", function()
-	if current_dir == "col" then
-		layout:update(Layout.Box({
-			Layout.Box(popup_one, { size = "40%" }),
-			Layout.Box(popup_two, { size = "60%" }),
-		}, { dir = "row" }))
-
-		current_dir = "row"
-	else
-		layout:update(Layout.Box({
-			Layout.Box(popup_two, { size = "60%" }),
-			Layout.Box(popup_one, { size = "40%" }),
-		}, { dir = "col" }))
-
-		current_dir = "col"
-	end
-end, {})
-
-layout:mount()
+return M
