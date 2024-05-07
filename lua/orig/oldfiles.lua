@@ -21,7 +21,7 @@ end
 
 function M.save_cache(file_path)
 	--vim.notify("save cache: " .. vim.inspect(M.oldfiles))
-	vim.fn.writefile({ vim.mpack.encode(M.oldfiles) }, file_path, "b")
+	pcall(vim.fn.writefile, { vim.mpack.encode(M.oldfiles) }, file_path, "b")
 end
 
 function M.create_cache(file_path)
@@ -34,6 +34,9 @@ function M.setmax(max)
 end
 
 function M.add(file_name)
+	if file_name == "" then
+		return
+	end
 	if vim.fn.filereadable(file_name) == 0 then
 		return
 	end

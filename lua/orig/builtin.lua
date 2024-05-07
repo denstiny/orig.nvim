@@ -37,6 +37,10 @@ function M.oldfilemenu(arg)
 		vim.cmd("doautocmd User " .. "OrgClosed")
 	end)
 	--vim.g.Menu = vim.inspect(menu)
+	--vim.api.nvim_buf_set_keymap(menu.buf, "n", "q", ":quit<cr>", { silent = true, noremap = true })
+	menu:map("n", "q", function()
+		vim.cmd("quitall")
+	end, { noremap = true })
 	return menu
 end
 
