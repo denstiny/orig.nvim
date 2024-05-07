@@ -7,21 +7,20 @@ old.load_cache(oldfiles_path)
 local config = require("orig.config")
 
 M.setup = function()
-	local lay = layout.create()
-
 	vim.api.nvim_create_autocmd({ "UiEnter" }, {
-		callback = function()
-			for _, v in ipairs(config.view) do
-				v:mount()
+		callback = function(arg)
+			if arg.file == "" then
+				for _, v in ipairs(config.view) do
+					v:show()
+				end
 			end
 		end,
 	})
-
 	vim.api.nvim_create_autocmd({ "User" }, {
 		pattern = "OrgClosed",
 		callback = function()
 			for _, v in ipairs(config.view) do
-				v:unmount()
+				v:hide()
 			end
 		end,
 	})
