@@ -10,6 +10,7 @@ local M = {
 					width = "35%",
 					height = "60%",
 				},
+				zindex = 12,
 				position = {
 					row = 41,
 					col = "50%",
@@ -30,7 +31,7 @@ local M = {
 				keymap = {
 					focus_next = { "j", "<Down>" },
 					focus_prev = { "k", "<Up>" },
-					close = { "<Esc>", "<C-c>", "q" },
+					close = { "<Esc>", "<C-c>" },
 					submit = { "<CR>", "<Space>" },
 				},
 				on_close = function()
@@ -44,7 +45,7 @@ local M = {
 		}),
 		term({
 			config = {
-				zindex = 50,
+				zindex = 10,
 				border = {
 					style = "none",
 				},
@@ -57,7 +58,7 @@ local M = {
 		}, "cbonsai -l"),
 		term({
 			config = {
-				zindex = 50,
+				zindex = 10,
 				border = {
 					style = "none",
 				},
@@ -73,7 +74,7 @@ local M = {
 		}, "cava"),
 		term({
 			config = {
-				zindex = 50,
+				zindex = 10,
 				border = {
 					style = "none",
 				},
@@ -89,10 +90,10 @@ local M = {
 		}, "cowsay Orig"),
 		term({
 			config = {
-				zindex = 58,
+				zindex = 11,
 				size = {
 					width = "40%",
-					height = "36%",
+					height = "39%",
 				},
 				border = {
 					style = "none",
